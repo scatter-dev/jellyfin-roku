@@ -438,6 +438,7 @@ sub Main()
           autoPlayNextEpisode(node.id, node.showID)
         end if
       else if node.state = "playing" or node.state = "paused" then
+        sleep(1000)
         ReportPlayback(group, "update")
       end if
     else if type(msg) = "roDeviceInfoEvent" then
