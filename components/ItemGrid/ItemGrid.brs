@@ -200,6 +200,8 @@ sub ItemDataLoaded(msg)
 
   m.itemGrid.setFocus(true)
 
+  m.loadItemsTask.observeField("content", "ItemDataLoaded")
+
 end sub
 
 '
