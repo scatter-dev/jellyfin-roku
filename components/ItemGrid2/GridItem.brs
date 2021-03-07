@@ -4,11 +4,13 @@ sub init()
   m.itemIcon = m.top.findNode("itemIcon")
   m.posterText = m.top.findNode("posterText")
   m.itemText = m.top.findNode("itemText")
+  m.itemSubtitle = m.top.findNode("itemSubtitle")
   m.backdrop = m.top.findNode("backdrop")
 
   m.itemPoster.observeField("loadStatus", "onPosterLoadStatusChanged")
 
   m.itemText.translation = [0, m.itemPoster.height + 7]
+  m.itemSubtitle.translation = [0, m.itemPoster.height + m.itemText.boundingRect().height + 7]
 
   'Parent is MarkupGrid and it's parent is the ItemGrid
   topParent = m.top.GetParent().GetParent()
@@ -51,6 +53,8 @@ sub itemContentChanged()
     print "Unhandled Item Type: " + itemData.type
   end if
 
+  m.itemSubtitle.text = itemData.SortFieldData
+
   'If Poster not loaded, ensure "blue box" is shown until loaded
   if m.itemPoster.loadStatus <> "ready" then
     m.backdrop.visible = true
@@ -75,9 +79,13 @@ sub focusChanged()
   if m.top.itemHasFocus = true then
     m.itemText.visible = true
     m.itemText.repeatCount = -1
+    m.itemSubtitle.visible = true
+    m.itemSubtitle.repeatCount = -1
   else
     m.itemText.visible = false
     m.itemText.repeatCount = 0
+    m.itemSubtitle.visible = false
+    m.itemSubtitle.repeatCount = -1
   end if
 
 end sub

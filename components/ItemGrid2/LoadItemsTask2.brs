@@ -14,7 +14,6 @@ sub loadItems()
     sort_order = "Descending"
   end if
 
-
   params = {
     limit: m.top.limit,
     StartIndex: m.top.startIndex,
@@ -68,7 +67,7 @@ sub loadItems()
     end if
 
     if tmp <> invalid then
-
+      tmp.SortFieldData = GetSortFieldData(item, sort_field)
       tmp.json = item
       results.push(tmp)
 
@@ -78,3 +77,59 @@ sub loadItems()
   m.top.content = results
 
 end sub
+
+sub GetSortFieldData(item, sort_field) as string
+  if sort_field = "SortName" then
+    return ""
+  else if sort_field = "CommunityRating" then
+    if item.DoesExist("CommunityRating") then
+      return str(item.CommunityRating)
+    else
+      return ""
+    end if
+  else if sort_field = "CriticRating" then
+    if item.DoesExist("CriticRating") then
+      return str(item.CriticRating)
+    else
+      return ""
+    end if
+  else if sort_field = "DateCreated" then
+    return ""
+  else if sort_field = "DatePlayed" then
+    return ""
+  else if sort_field = "OfficialRating" then
+    if item.DoesExist("OfficialRating") then
+      return item.OfficialRating
+    else
+      return ""
+    end if
+  else if sort_field = "PlayCount" then
+    return ""
+  else if sort_field = "PremiereDate" then
+    if item.DoesExist("PremiereDate") then
+      date = CreateObject("roDateTime")
+      date.FromISO8601String(item.PremiereDate)
+      return date.AsDateString("short-month-no-weekday")
+    else if item.DoesExist("ProductionYear") then
+      return str(item.ProductionYear)
+    else
+      return ""
+    end if
+  else if sort_field = "Runtime" then
+    return str(round(item.RunTimeTicks / 600000000.0)) + " min"
+  end if
+end sub
+
+function round(f as float) as integer
+  ' BrightScript only has a "floor" round
+  ' This compares floor to floor + 1 to find which is closer
+  m = int(f)
+  n = m + 1
+  x = abs(f - m)
+  y = abs(f - n)
+  if y > x
+    return m
+  else
+    return n
+  end if
+end function
