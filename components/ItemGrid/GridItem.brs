@@ -77,15 +77,11 @@ end sub
 sub focusChanged()
 
   if m.top.itemHasFocus = true then
-    m.itemText.visible = true
     m.itemText.repeatCount = -1
-    m.itemSubtitle.visible = true
     m.itemSubtitle.repeatCount = -1
   else
-    m.itemText.visible = false
     m.itemText.repeatCount = 0
-    m.itemSubtitle.visible = false
-    m.itemSubtitle.repeatCount = -1
+    m.itemSubtitle.repeatCount = 0
   end if
 
 end sub
